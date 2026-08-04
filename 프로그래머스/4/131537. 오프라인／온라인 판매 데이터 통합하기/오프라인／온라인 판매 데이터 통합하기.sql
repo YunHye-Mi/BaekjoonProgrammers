@@ -1,13 +1,12 @@
-with sale(sales_date, product_id, user_id, sales_amount) as (
-    select date_format(sales_date, '%Y-%m-%d'), product_id, user_id, sales_amount
-    from online_sale
-    where year(sales_date) = 2022 and month(sales_date) = 3
-    union all
-    select date_format(sales_date, '%Y-%m-%d'), product_id, null as user_id, sales_amount
-    from offline_sale
-    where year(sales_date) = 2022 and month(sales_date) = 3
+WITH SALE AS(
+    SELECT SALES_DATE, PRODUCT_ID, USER_ID, SALES_AMOUNT
+    FROM ONLINE_SALE
+    UNION ALL
+    SELECT SALES_DATE, PRODUCT_ID, NULL AS USER_ID, SALES_AMOUNT
+    FROM OFFLINE_SALE
 )
 
-select *
-from sale
-order by sales_date, product_id, user_id
+SELECT *
+FROM SALE
+WHERE YEAR(SALES_DATE) = 2022 AND MONTH(SALES_DATE) = 3
+ORDER BY SALES_DATE, PRODUCT_ID, USER_ID
