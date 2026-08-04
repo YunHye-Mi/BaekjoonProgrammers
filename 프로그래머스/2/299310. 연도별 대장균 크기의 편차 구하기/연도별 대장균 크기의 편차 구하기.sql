@@ -1,10 +1,3 @@
-with average as (
-    select year(differentiation_date) as year, max(size_of_colony) as max
-    from ecoli_data
-    group by year(differentiation_date)
-)
-
-select e.year, (max - size_of_colony) as year_dev, id
-from (select year(differentiation_date) as year, size_of_colony, id
-     from ecoli_data) e join average a on e.year = a.year
-order by year, year_dev
+SELECT YEAR(DIFFERENTIATION_DATE) AS YEAR, MAX(SIZE_OF_COLONY) OVER (PARTITION BY YEAR(DIFFERENTIATION_DATE)) - SIZE_OF_COLONY AS YEAR_DEV, ID
+FROM ECOLI_DATA
+ORDER BY YEAR, YEAR_DEV
